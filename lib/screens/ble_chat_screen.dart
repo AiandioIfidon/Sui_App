@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test_app/bluetooth/ble.dart';
 
 class BleChatPage extends StatefulWidget {
-  final String title;
-  const BleChatPage({super.key, required this.title});
+  const BleChatPage({super.key});
   @override
   State<BleChatPage> createState() => _BleChatPageState();
 }
@@ -87,7 +86,7 @@ class _BleChatPageState extends State<BleChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(widget.title), backgroundColor: Theme.of(context).colorScheme.inversePrimary,),
+      appBar: AppBar(title:const Text('Payment Processing'), backgroundColor: Theme.of(context).colorScheme.inversePrimary,),
       body: _isConnected
         ? Column(
           children: [

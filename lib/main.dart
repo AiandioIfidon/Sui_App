@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_test_app/screens/store_screen.dart';
+import 'package:flutter_test_app/screens/dispense_screen.dart';
+import 'package:flutter_test_app/screens/ble_chat_screen.dart';
 import 'screens/dashboard_screen.dart';
 import 'screens/send_screen.dart';
 import 'screens/device_selection_screen.dart';
@@ -45,14 +46,42 @@ class CryptoWaterApp extends StatelessWidget {
         ),
       ),
       home: const DashboardScreen(),
-      routes: {
-        '/send': (context) => const SendScreen(),
-        '/devices': (context) => const DeviceSelectionScreen(),
-        '/payment': (context) => const PaymentConfirmationScreen(),
-        '/shop': (context) => const ShopScreen(),
-        '/product': (context) => const ProductDetailScreen(),
-        '/buy': (context) => const BuyScreen(),
-        '/processing': (context) => BleChatPage(title: "Payment processing"),
+      onGenerateRoute: (settings) {
+        switch (settings.name) {
+          case '/send':
+            return MaterialPageRoute(builder: (_) => const SendScreen());
+
+          case '/devices':
+            return MaterialPageRoute(
+              builder: (_) => const DeviceSelectionScreen(),
+            );
+
+          case '/payment':
+            final amount = settings.arguments as int;
+            return MaterialPageRoute(
+              builder: (_) => PaymentConfirmationScreen(amount: amount),
+            );
+
+          case '/shop':
+            return MaterialPageRoute(builder: (_) => const ShopScreen());
+
+          case '/product':
+            return MaterialPageRoute(
+              builder: (_) => const ProductDetailScreen(),
+            );
+
+          case '/buy':
+            return MaterialPageRoute(builder: (_) => const BuyScreen());
+
+          case '/processing':
+            return MaterialPageRoute(builder: (_) => BleChatPage());
+
+          case '/dispenser':
+            return MaterialPageRoute(builder: (_) => DispenseScreen());
+
+          default:
+            return null;
+        }
       },
     );
   }

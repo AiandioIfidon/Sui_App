@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 
-class PaymentConfirmationScreen extends StatelessWidget {
-  const PaymentConfirmationScreen({super.key});
+class PaymentConfirmationScreen extends StatefulWidget {
+  const PaymentConfirmationScreen({super.key, required this.amount});
+  final int amount;
+
+  @override
+  State<PaymentConfirmationScreen> createState() => _PaymentConfirmPage();
+}
+
+class _PaymentConfirmPage extends State<PaymentConfirmationScreen> {
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +28,7 @@ class PaymentConfirmationScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(24.0),
                 child: Column(
                   children: [
-                    const Text(
+                     Text(
                       'Total Amount',
                       style: TextStyle(
                         fontSize: 16,
@@ -29,8 +36,8 @@ class PaymentConfirmationScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 8),
-                    const Text(
-                      '12 Sui',
+                    Text(
+                      '${widget.amount}',
                       style: TextStyle(
                         fontSize: 36,
                         fontWeight: FontWeight.bold,
@@ -130,10 +137,10 @@ class PaymentConfirmationScreen extends StatelessWidget {
                 const SizedBox(width: 16),
                 Expanded(
                   child: ElevatedButton(
-                    // onPressed: () {
-                    //   _showSuccessDialog(context);
-                    // },
-                    onPressed: () => Navigator.pushNamed(context, '/processing'),
+                    onPressed: () {
+                      _showSuccessDialog(context);
+                    },
+                    // onPressed: () => Navigator.pushNamed(context, '/processing'),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green,
                       minimumSize: const Size(0, 50),
@@ -195,3 +202,4 @@ class PaymentConfirmationScreen extends StatelessWidget {
     );
   }
 }
+

@@ -61,7 +61,7 @@ class DeviceSelectionScreen extends StatelessWidget {
                       ),
                       trailing: ElevatedButton(
                         onPressed: () {
-                          Navigator.pushNamed(context, '/payment');
+                          Navigator.pushNamed(context, '/payment', arguments: 37) ;
                         },
                         style: ElevatedButton.styleFrom(
                           minimumSize: const Size(80, 36),

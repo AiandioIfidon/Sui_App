@@ -1,21 +1,15 @@
 import 'package:flutter/material.dart';
 
-class DashboardScreen extends StatelessWidget {
-  const DashboardScreen({super.key});
-
+class DispenseScreen extends StatelessWidget{
+  const DispenseScreen({super.key});
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Wallet'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.shopping_bag_outlined),
-            onPressed: () => Navigator.pushNamed(context, '/shop'),
-          ),
-        ],
+        title: const Text("Dispenser Tab"),
       ),
-      body: Padding(
+            body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -28,7 +22,7 @@ class DashboardScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text(
-                      'Balance',
+                      'Cups Balance',
                       style: TextStyle(
                         fontSize: 16,
                         color: Colors.grey,
@@ -36,7 +30,7 @@ class DashboardScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     const Text(
-                      '12 Sui',
+                      '2 Cups',
                       style: TextStyle(
                         fontSize: 32,
                         fontWeight: FontWeight.bold,
@@ -47,17 +41,17 @@ class DashboardScreen extends StatelessWidget {
                       children: [
                         Expanded(
                           child: ElevatedButton.icon(
-                            onPressed: () => Navigator.pushNamed(context, '/send'),
-                            icon: const Icon(Icons.send),
-                            label: const Text('Send'),
+                            onPressed: () => Navigator.pushNamed(context, '/processing'),
+                            icon: const Icon(Icons.local_drink),
+                            label: const Text('Drink'),
                           ),
                         ),
                         const SizedBox(width: 12),
                         Expanded(
                           child: ElevatedButton.icon(
                             onPressed: () {},
-                            icon: const Icon(Icons.download),
-                            label: const Text('Receive'),
+                            icon: const Icon(Icons.shopping_cart),
+                            label: const Text('Buy more'),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.grey[100],
                               foregroundColor: Colors.black,
@@ -70,20 +64,6 @@ class DashboardScreen extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 20),
-            
-            // Connect Button
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton.icon(
-                onPressed: () => Navigator.pushNamed(context, '/devices'),
-                icon: const Icon(Icons.link),
-                label: const Text('Connect'),
-              ),
-            ),
-            
-            const SizedBox(height: 24),
-            
             // Connected Devices
             const Text(
               'Previously Connected',
@@ -119,18 +99,6 @@ class DashboardScreen extends StatelessWidget {
             ),
           ],
         ),
-      ),
-
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.pushNamed(context, '/dispenser'),
-        backgroundColor: Colors.purple, // Set background color
-        foregroundColor: Colors.white, // Icon/text color
-        elevation: 8.0, // Shadow depth
-        shape: RoundedRectangleBorder(
-          // Custom shape (e.g., rounded rectangle)
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Icon(Icons.add),
       ),
     );
   }
