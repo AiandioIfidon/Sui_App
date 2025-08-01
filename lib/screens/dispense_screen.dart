@@ -49,7 +49,7 @@ class DispenseScreen extends StatelessWidget{
                         const SizedBox(width: 12),
                         Expanded(
                           child: ElevatedButton.icon(
-                            onPressed: () {},
+                            onPressed: () => Navigator.pushNamed(context, '/shop'),
                             icon: const Icon(Icons.shopping_cart),
                             label: const Text('Buy more'),
                             style: ElevatedButton.styleFrom(

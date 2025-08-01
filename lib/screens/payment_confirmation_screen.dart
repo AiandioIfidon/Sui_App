@@ -59,7 +59,7 @@ class _PaymentConfirmPage extends State<PaymentConfirmationScreen> {
                             children: [
                               const Text('Outflow'),
                               Text(
-                                '-12 Sui',
+                                '-${widget.amount} Sui',
                                 style: TextStyle(
                                   color: Colors.red[600],
                                   fontWeight: FontWeight.w600,

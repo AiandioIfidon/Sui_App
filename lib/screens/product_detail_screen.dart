@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 
-class ProductDetailScreen extends StatelessWidget {
-  const ProductDetailScreen({super.key});
+class ProductDetailScreen extends StatefulWidget {
+  const ProductDetailScreen({super.key, required this.amount});
+  final int amount;
+  @override
+  State<ProductDetailScreen> createState() => _ProductDetails();
+}
 
+class _ProductDetails extends State<ProductDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,7 +52,7 @@ class ProductDetailScreen extends StatelessWidget {
             const SizedBox(height: 8),
             
             Text(
-              '2 Sui',
+              '${widget.amount} Sui',
               style: TextStyle(
                 fontSize: 20,
                 color: Colors.blue[700],
@@ -61,7 +66,7 @@ class ProductDetailScreen extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () => Navigator.pushNamed(context, '/buy'),
+                onPressed: () => Navigator.pushNamed(context, '/payment', arguments: widget.amount),
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size(0, 50),
                 ),

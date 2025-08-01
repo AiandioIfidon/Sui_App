@@ -123,14 +123,14 @@ class DashboardScreen extends StatelessWidget {
 
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.pushNamed(context, '/dispenser'),
-        backgroundColor: Colors.purple, // Set background color
+        backgroundColor: Colors.blue[700], // Set background color
         foregroundColor: Colors.white, // Icon/text color
         elevation: 8.0, // Shadow depth
         shape: RoundedRectangleBorder(
           // Custom shape (e.g., rounded rectangle)
           borderRadius: BorderRadius.circular(16),
         ),
-        child: Icon(Icons.add),
+        child: Icon(Icons.local_drink_outlined),
       ),
     );
   }

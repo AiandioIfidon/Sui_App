@@ -57,7 +57,7 @@ class CryptoWaterApp extends StatelessWidget {
             );
 
           case '/payment':
-            final amount = settings.arguments as int;
+            final amount = settings.arguments as int; // gotten from the shop
             return MaterialPageRoute(
               builder: (_) => PaymentConfirmationScreen(amount: amount),
             );
@@ -66,8 +66,9 @@ class CryptoWaterApp extends StatelessWidget {
             return MaterialPageRoute(builder: (_) => const ShopScreen());
 
           case '/product':
+            final amount = settings.arguments as int;
             return MaterialPageRoute(
-              builder: (_) => const ProductDetailScreen(),
+              builder: (_) => ProductDetailScreen(amount: amount),
             );
 
           case '/buy':

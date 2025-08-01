@@ -73,7 +73,7 @@ class ShopScreen extends StatelessWidget {
                           SizedBox(
                             width: double.infinity,
                             child: ElevatedButton(
-                              onPressed: () => Navigator.pushNamed(context, '/product'),
+                              onPressed: () => Navigator.pushNamed(context, '/product', arguments: 5),// amount of sui per water cup
                               style: ElevatedButton.styleFrom(
                                 minimumSize: const Size(0, 32),
                               ),

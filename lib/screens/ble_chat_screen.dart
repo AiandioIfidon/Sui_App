@@ -11,7 +11,7 @@ class BleChatPage extends StatefulWidget {
 class _BleChatPageState extends State<BleChatPage> {
 
   final List<String> _messages = [];
-  final TextEditingController _textController = TextEditingController();
+  // final TextEditingController _textController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
 
   final _appMessageController = StreamController<String>.broadcast();
@@ -86,7 +86,7 @@ class _BleChatPageState extends State<BleChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title:const Text('Payment Processing'), backgroundColor: Theme.of(context).colorScheme.inversePrimary,),
+      appBar: AppBar(title:const Text('Dispensing'), backgroundColor: Theme.of(context).colorScheme.inversePrimary,),
       body: _isConnected
         ? Column(
           children: [
