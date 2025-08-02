@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_test_app/bluetooth/ble.dart';
+import 'package:flutter_test_app/services/ble_service.dart';
 
 class BleChatPage extends StatefulWidget {
   const BleChatPage({super.key});

@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 
-class DashboardScreen extends StatelessWidget {
+class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
+  @override
+  State<DashboardScreen> createState() => _Dashboard();
+}
 
+class _Dashboard extends State<DashboardScreen> {
+
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(

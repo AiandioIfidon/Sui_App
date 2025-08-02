@@ -1,7 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_test_app/services/storage_service.dart';
 
-class DispenseScreen extends StatelessWidget{
+class DispenseScreen extends StatefulWidget{
   const DispenseScreen({super.key});
+  @override
+  State<DispenseScreen> createState() => _Dispence();
+}
+
+class _Dispence extends State<DispenseScreen> {
+  final WalletStorage wallet = WalletStorage();
+  int _balance = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    loadBalance();
+    ///
+  }
+
+  Future<void> loadBalance() async {
+    int balance = await WalletStorage.getBalance();
+    setState(() {
+      _balance = balance;
+    });
+  }
+
+  Future<void> increment() async {
+    await WalletStorage.incrementBalance();
+    int balance = await WalletStorage.getBalance();
+    setState(() {
+      _balance = balance;
+    });
+  }
+
   
   @override
   Widget build(BuildContext context) {
@@ -29,8 +60,8 @@ class DispenseScreen extends StatelessWidget{
                       ),
                     ),
                     const SizedBox(height: 8),
-                    const Text(
-                      '2 Cups',
+                     Text(
+                      '$_balance Cups',
                       style: TextStyle(
                         fontSize: 32,
                         fontWeight: FontWeight.bold,
@@ -49,7 +80,8 @@ class DispenseScreen extends StatelessWidget{
                         const SizedBox(width: 12),
                         Expanded(
                           child: ElevatedButton.icon(
-                            onPressed: () => Navigator.pushNamed(context, '/shop'),
+                            // onPressed: () => Navigator.pushNamed(context, '/shop'),
+                            onPressed: increment,
                             icon: const Icon(Icons.shopping_cart),
                             label: const Text('Buy more'),
                             style: ElevatedButton.styleFrom(
