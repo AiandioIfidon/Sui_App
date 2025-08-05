@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_test_app/screens/auth_gate.dart';
 import 'package:flutter_test_app/screens/dispense_screen.dart';
 import 'package:flutter_test_app/screens/ble_chat_screen.dart';
-import 'screens/dashboard_screen.dart';
 import 'screens/send_screen.dart';
 import 'screens/device_selection_screen.dart';
 import 'screens/payment_confirmation_screen.dart';
@@ -45,7 +45,7 @@ class CryptoWaterApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const DashboardScreen(),
+      home: const AuthGate(),
       onGenerateRoute: (settings) {
         switch (settings.name) {
           case '/send':
