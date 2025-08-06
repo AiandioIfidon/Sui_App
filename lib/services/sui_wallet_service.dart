@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sui/sui.dart';
+import 'package:sui/types/faucet.dart';
 
 import 'sui_credential_service.dart';
 
@@ -27,41 +28,15 @@ class SuiWalletService { // will make the address and private key the constructo
 
   Future<int> getAccountBalance() async {
     final String address = await suiCredentials.getWalletAddress();
+    final balance = await testnetClient.getBalance(address);
+    return balance.totalBalance.toInt();
+    // final PaginatedObjectsResponse response = await devnetClient.getOwnedObjects(address,
+    // options: SuiObjectDataOptions(showContent: true));
 
-    final PaginatedObjectsResponse response = await testnetClient.getOwnedObjects(
-          address,
-          options: SuiObjectDataOptions(showContent: true),
-        );
-
-    for (final objResp in response.data) {
-      final fields = getObjectFields(objResp);
-
-      if (fields is Map && fields.containsKey('balance')) {
-        final dynamic balance = fields['balance'];
-
-        // Ensure balance is an int
-        if (balance is int) {
-          return balance;
-        } else if (balance is String) {
-          return int.tryParse(balance) ?? 777;
-        }
-      }
-    }
-
-    // Return fallback value if no balance is found
-    return 777;
+    // for (final objResp in response.data) {
+    //   final fields = getObjectFields(objResp);
+    //   final balance = fields['balance'];
+    //   return balance;
+    // }
   }
-
-  // Future<int> getAccountBalance() async {
-  //   final String address = await suiCredentials.getWalletAddress();
-  //   final PaginatedObjectsResponse response = await devnetClient.getOwnedObjects(address,
-  //   options: SuiObjectDataOptions(showContent: true));
-
-  //   for (final objResp in response.data) {
-  //     final fields = getObjectFields(objResp);
-  //     final balance = fields['balance'];
-  //     return balance;
-  //   }
-  //   return 777;// this is the value when it can't check
-  // }
 }
