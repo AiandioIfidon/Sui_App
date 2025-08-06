@@ -8,7 +8,7 @@ class SuiWalletService { // will make the address and private key the constructo
   final SuiCredentialService suiCredentials = SuiCredentialService();
 
   final testnetClient = SuiClient(SuiUrls.testnet);
-  final devnetClient = SuiClient(SuiUrls.faucetDev);
+  final devnetClient = SuiClient(SuiUrls.devnet);
 
   final faucet = FaucetClient(SuiUrls.faucetDev);
   
@@ -23,12 +23,13 @@ class SuiWalletService { // will make the address and private key the constructo
     } catch(e) {
       debugPrint('$e');
     }
-    await Future.delayed(const Duration(seconds: 5));
+    await Future.delayed(const Duration(seconds: 3));
   }
 
   Future<int> getAccountBalance() async {
     final String address = await suiCredentials.getWalletAddress();
     final balance = await devnetClient.getBalance(address);
+    await Future.delayed(const Duration(seconds: 3));
     return balance.totalBalance.toInt();
   }
 }
