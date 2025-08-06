@@ -11,8 +11,8 @@ class _Dashboard extends State<DashboardScreen> {
 
   final SuiWalletService suiWallet = SuiWalletService();
 
-  int _suiBalance = 77; // 77 mean function don't change value and 777 means checking value failed
-
+  int _suiBalance = 0; // 77 mean function don't change value and 777 means checking value failed
+  String _address = 'loading';
   @override
   void initState() {
     super.initState();
@@ -21,8 +21,10 @@ class _Dashboard extends State<DashboardScreen> {
 
   Future<void> loadWallet() async {
     final int balance = await suiWallet.getAccountBalance();
+    final address = await suiWallet.getAddress();
     setState(() {
       _suiBalance = balance;
+      _address = address;
     });
   }
 
@@ -64,9 +66,17 @@ class _Dashboard extends State<DashboardScreen> {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      '$_suiBalance Sui',
+                      '${_suiBalance/1000000000} Sui',
                       style: TextStyle(
                         fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      '$_suiBalance MIST',
+                      style: TextStyle(
+                        fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -112,39 +122,9 @@ class _Dashboard extends State<DashboardScreen> {
             
             const SizedBox(height: 24),
             
-            // Connected Devices
-            const Text(
-              'Previously Connected',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            const SizedBox(height: 12),
-            
-            Expanded(
-              child: ListView.builder(
-                itemCount: 1,
-                itemBuilder: (context, index) {
-                  return Card(
-                    margin: const EdgeInsets.only(bottom: 8),
-                    child: ListTile(
-                      leading: CircleAvatar(
-                        backgroundColor: Colors.blue[50],
-                        child: Icon(
-                          Icons.device_hub,
-                          color: Colors.blue[700],
-                        ),
-                      ),
-                      title: Text('Dispenser ${index + 1}'),
-                      subtitle: const Text('Last connected 2 hours ago'),
-                      trailing: const Icon(Icons.chevron_right),
-                      onTap: () {},
-                    ),
-                  );
-                },
-              ),
-            ),
+            Text('Address:', style: TextStyle(color: Colors.blue[400])),
+                SelectableText(_address!),
+                const SizedBox(height: 16),
           ],
         ),
       ),
