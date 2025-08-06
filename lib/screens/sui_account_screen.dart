@@ -25,7 +25,7 @@ class _CreateAccountTabState extends State<CreateAccountTab> {
     final mnemonic = SuiAccount.generateMnemonic();
     final account = SuiAccount.fromMnemonics(mnemonic, SignatureScheme.Ed25519);
 
-    final privKey = account.privateKey;
+    final privKey = account.privateKey();
     final addr = account.getAddress(); 
 
     await storage.write(key: 'sui_private_key', value: '$privKey');
@@ -33,7 +33,7 @@ class _CreateAccountTabState extends State<CreateAccountTab> {
 
     setState(() {
       _mnemonic = mnemonic;
-      _privateKey = '$privKey';
+      _privateKey = privKey;
       _address = addr;
       _isCreating = false;
     });
@@ -41,39 +41,42 @@ class _CreateAccountTabState extends State<CreateAccountTab> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            ElevatedButton.icon(
-              onPressed: _isCreating ? null : _createAccount,
-              icon: const Icon(Icons.add_circle_outline),
-              label: Text(_isCreating ? 'Creating...' : 'Create Sui Account'),
-            ),
-            const SizedBox(height: 24),
-            if (_mnemonic != null) ...[
-              Text(
-                'Recovery Mnemonic (write this down and keep it safe):',
-                style: TextStyle(color: Colors.blue[400]),
-              ),
-              SelectableText(
-                _mnemonic!,
-                style: const TextStyle(fontFamily: 'monospace'),
+    return Scaffold(
+      appBar: AppBar(title: const Text('Create Sui Account')),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              ElevatedButton.icon(
+                onPressed: _isCreating ? null : _createAccount,
+                icon: const Icon(Icons.add_circle_outline),
+                label: Text(_isCreating ? 'Creating...' : 'Create Sui Account'),
               ),
               const SizedBox(height: 24),
+              if (_mnemonic != null) ...[
+                Text(
+                  'Recovery Mnemonic (write this down and keep it safe):',
+                  style: TextStyle(color: Colors.blue[400]),
+                ),
+                SelectableText(
+                  _mnemonic!,
+                  style: const TextStyle(fontFamily: 'monospace'),
+                ),
+                const SizedBox(height: 24),
+              ],
+              if (_address != null) ...[
+                Text('Address:', style: TextStyle(color: Colors.blue[400])),
+                SelectableText(_address!),
+                const SizedBox(height: 16),
+              ],
+              if (_privateKey != null) ...[
+                Text('Private Key:', style: TextStyle(color: Colors.blue[400])),
+                SelectableText(_privateKey!),
+              ],
             ],
-            if (_address != null) ...[
-              Text('Address:', style: TextStyle(color: Colors.blue[400]),),
-              SelectableText(_address!),
-              const SizedBox(height: 16),
-            ],
-            if (_privateKey != null) ...[
-              Text('Private Key:', style: TextStyle(color: Colors.blue[400]),),
-              SelectableText(_privateKey!),
-            ],
-          ],
+          ),
         ),
       ),
     );
