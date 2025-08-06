@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sui/sui.dart';
-import 'package:sui/types/faucet.dart';
 
 import 'sui_credential_service.dart';
 
