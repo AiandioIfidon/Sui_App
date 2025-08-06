@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'screens/sui_account_screen.dart';
+// import 'screens/sui_account_screen.dart';
 
-// import '/screens/dashboard_screen.dart';
+import '/screens/dashboard_screen.dart';
 import '/screens/dispense_screen.dart';
 import '/screens/ble_chat_screen.dart';
 import 'screens/send_screen.dart';
@@ -47,7 +47,7 @@ class CryptoWaterApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const CreateAccountTab(),
+      home: const DashboardScreen(),
       onGenerateRoute: (settings) {
         switch (settings.name) {
           case '/send':

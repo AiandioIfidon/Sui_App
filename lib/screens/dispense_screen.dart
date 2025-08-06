@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../services/wallet_service.dart';
+import '../services/cups_wallet_service.dart';
 
 class DispenseScreen extends StatefulWidget{
   const DispenseScreen({super.key});

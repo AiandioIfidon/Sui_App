@@ -28,7 +28,7 @@ class _CreateAccountTabState extends State<CreateAccountTab> {
     final privKey = account.privateKey();
     final addr = account.getAddress(); 
 
-    await storage.write(key: 'sui_private_key', value: '$privKey');
+    await storage.write(key: 'sui_private_key', value: privKey);
     await storage.write(key: 'sui_address', value: addr);
 
     setState(() {
