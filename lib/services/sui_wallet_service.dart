@@ -30,13 +30,5 @@ class SuiWalletService { // will make the address and private key the constructo
     final String address = await suiCredentials.getWalletAddress();
     final balance = await testnetClient.getBalance(address);
     return balance.totalBalance.toInt();
-    // final PaginatedObjectsResponse response = await devnetClient.getOwnedObjects(address,
-    // options: SuiObjectDataOptions(showContent: true));
-
-    // for (final objResp in response.data) {
-    //   final fields = getObjectFields(objResp);
-    //   final balance = fields['balance'];
-    //   return balance;
-    // }
   }
 }
