@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
   @override
@@ -7,7 +8,6 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _Dashboard extends State<DashboardScreen> {
-
   
   @override
   Widget build(BuildContext context) {
@@ -129,6 +129,7 @@ class _Dashboard extends State<DashboardScreen> {
 
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.pushNamed(context, '/dispenser'),
+        tooltip: 'Delete Wallet Balance',
         backgroundColor: Colors.blue[700], // Set background color
         foregroundColor: Colors.white, // Icon/text color
         elevation: 8.0, // Shadow depth

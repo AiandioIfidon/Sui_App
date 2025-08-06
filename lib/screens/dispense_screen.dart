@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_test_app/services/storage_service.dart';
+
+import '../services/wallet_service.dart';
 
 class DispenseScreen extends StatefulWidget{
   const DispenseScreen({super.key});
@@ -33,6 +34,14 @@ class _Dispence extends State<DispenseScreen> {
     });
   }
 
+  Future<void> deleteAll() async {
+    await WalletStorage.clearWallet();
+    int balance = await WalletStorage.getBalance();
+    setState(() {
+      _balance = balance;
+    });
+  }
+
   
   @override
   Widget build(BuildContext context) {
@@ -40,7 +49,7 @@ class _Dispence extends State<DispenseScreen> {
       appBar: AppBar(
         title: const Text("Dispenser Tab"),
       ),
-            body: Padding(
+        body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -131,6 +140,17 @@ class _Dispence extends State<DispenseScreen> {
             ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => deleteAll(),
+        backgroundColor: Colors.blue[700], // Set background color
+        foregroundColor: Colors.white, // Icon/text color
+        elevation: 8.0, // Shadow depth
+        shape: RoundedRectangleBorder(
+          // Custom shape (e.g., rounded rectangle)
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Icon(Icons.delete_forever),
       ),
     );
   }

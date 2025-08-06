@@ -34,7 +34,8 @@ class LocalAuth {
         try {
             final bool didAuth = await auth.authenticate(
                 localizedReason: 'Authentication needed to use app',
-                options: AuthenticationOptions(biometricOnly: true)
+                options: AuthenticationOptions(biometricOnly: false,
+                stickyAuth: true)
                 );
             return didAuth;
         } on PlatformException catch(error) {
