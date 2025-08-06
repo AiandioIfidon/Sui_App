@@ -8,7 +8,7 @@ class SuiWalletService { // will make the address and private key the constructo
   final SuiCredentialService suiCredentials = SuiCredentialService();
 
   final testnetClient = SuiClient(SuiUrls.testnet);
-  final devnetClient = SuiClient(SuiUrls.faucetDev)''
+  final devnetClient = SuiClient(SuiUrls.faucetDev);
 
   final faucet = FaucetClient(SuiUrls.faucetDev);
   
