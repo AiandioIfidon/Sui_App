@@ -28,6 +28,15 @@ class _Dashboard extends State<DashboardScreen> {
     });
   }
 
+  Future<void> getObjects() async {
+    await suiWallet.getObjects();
+  }
+
+  Future<void> merge() async {
+    await suiWallet.mergeObjects();
+  }
+  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -115,6 +124,28 @@ class _Dashboard extends State<DashboardScreen> {
               ),
             ),
             
+            const SizedBox(height: 24),
+
+             SizedBox(
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                onPressed: () => getObjects(),
+                icon: const Icon(Icons.link),
+                label: const Text('get Owned objects'),
+              ),
+            ),
+
+            const SizedBox(height: 24),
+
+             SizedBox(
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                onPressed: () => merge(),
+                icon: const Icon(Icons.link),
+                label: const Text('Merge Objects'),
+              ),
+            ),
+
             const SizedBox(height: 24),
             
             Text('Address:', style: TextStyle(color: Colors.blue[400])),

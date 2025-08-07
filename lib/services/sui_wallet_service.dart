@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:sui/sui.dart';
 
@@ -11,6 +13,8 @@ class SuiWalletService { // will make the address and private key the constructo
   final devnetClient = SuiClient(SuiUrls.devnet);
 
   final faucet = FaucetClient(SuiUrls.faucetDev);
+
+  final transaction = Transaction();
 
   Future<String> getAddress() async {
     return await suiCredentials.getWalletAddress();
@@ -35,5 +39,35 @@ class SuiWalletService { // will make the address and private key the constructo
     final balance = await testnetClient.getBalance(address);
     await Future.delayed(const Duration(seconds: 2));
     return balance.totalBalance.toInt();
+  }
+
+  Future<void> getObjects() async {
+    final String address = await suiCredentials.getWalletAddress();
+    final obj = await testnetClient.getOwnedObjects(address);
+    debugPrint(obj.toString());
+  }
+
+  Future<void> mergeObjects() async {
+    final String address = await suiCredentials.getWalletAddress();
+    final obj = await testnetClient.getOwnedObjects(address);
+    final data = obj.data;
+
+    final key = await suiCredentials.getWalletPrivateKey();
+    final account = SuiAccount.fromPrivateKey(key, SignatureScheme.Ed25519);
+
+    List <String?> objects = [];
+    for (var id in data) {
+      objects.add(id.data?.objectId);
+    }
+    List<String> validIds = objects.whereType<String>().toList();
+    if (validIds.length > 1) { // if there are more than one object
+      for (int i = validIds.length - 1; i > 0; i--) {
+        transaction.mergeCoins(
+          transaction.objectId(validIds.first), [ transaction.objectId(validIds[i]) ]
+        );
+      }
+    }
+    debugPrint(objects.toString());
+
   }
 }
