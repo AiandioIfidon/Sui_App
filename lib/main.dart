@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 // import 'screens/sui_account_screen.dart';
 
-import '/screens/dashboard_screen.dart';
-import '/screens/dispense_screen.dart';
-import '/screens/ble_chat_screen.dart';
+import 'screens/wallet/dashboard_screen.dart';
+import 'screens/dispenser/dispense_screen.dart';
+import 'screens/dispenser/ble_chat_screen.dart';
 import 'screens/send_screen.dart';
-import 'screens/device_selection_screen.dart';
-import 'screens/payment_confirmation_screen.dart';
-import 'screens/shop_screen.dart';
-import 'screens/product_detail_screen.dart';
+import 'screens/dispenser/device_selection_screen.dart';
+import 'screens/store_and_payment/payment_confirmation_screen.dart';
+import 'screens/store_and_payment/shop_screen.dart';
+import 'screens/store_and_payment/product_detail_screen.dart';
 import 'screens/buy_screen.dart';
 
 void main() {

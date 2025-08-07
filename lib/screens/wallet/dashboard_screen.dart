@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../services/sui_wallet_service.dart';
+import '../../services/sui_wallet_service.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -11,7 +11,7 @@ class _Dashboard extends State<DashboardScreen> {
 
   final SuiWalletService suiWallet = SuiWalletService();
 
-  int _suiBalance = 0; // 77 mean function don't change value and 777 means checking value failed
+  int _suiBalance = 0; 
   String _address = 'loading';
   @override
   void initState() {
@@ -26,11 +26,6 @@ class _Dashboard extends State<DashboardScreen> {
       _suiBalance = balance;
       _address = address;
     });
-  }
-
-  Future<void> requestFaucet() async {
-    await suiWallet.requestFaucetDev();
-    await loadWallet();
   }
 
   @override
@@ -93,7 +88,7 @@ class _Dashboard extends State<DashboardScreen> {
                         const SizedBox(width: 12),
                         Expanded(
                           child: ElevatedButton.icon(
-                            onPressed: () => requestFaucet(),
+                            onPressed: () {},
                             icon: const Icon(Icons.download),
                             label: const Text('Receive'),
                             style: ElevatedButton.styleFrom(

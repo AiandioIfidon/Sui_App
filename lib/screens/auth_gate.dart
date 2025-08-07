@@ -1,4 +1,4 @@
-import 'package:flutter_test_app/screens/dashboard_screen.dart';
+import 'package:flutter_test_app/screens/wallet/dashboard_screen.dart';
 import '../providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 

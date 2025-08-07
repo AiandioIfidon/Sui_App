@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sui/sui.dart'; 
 
-import '../providers/secure_storage_provider.dart';
+import '../../providers/secure_storage_provider.dart';
 
 class CreateAccountTab extends StatefulWidget {
   const CreateAccountTab({super.key});

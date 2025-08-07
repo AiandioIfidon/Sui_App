@@ -33,7 +33,7 @@ class SuiWalletService { // will make the address and private key the constructo
   Future<int> getAccountBalance() async {
     final String address = await suiCredentials.getWalletAddress();
     final balance = await testnetClient.getBalance(address);
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 2));
     return balance.totalBalance.toInt();
   }
 }
