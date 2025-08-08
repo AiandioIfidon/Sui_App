@@ -29,11 +29,15 @@ class _Dashboard extends State<DashboardScreen> {
   }
 
   Future<void> getObjects() async {
-    await suiWallet.getObjects();
+    await suiWallet.getCoins();
   }
 
   Future<void> merge() async {
     await suiWallet.mergeObjects();
+  }
+
+  Future<void> sendCoins() async {
+    await suiWallet.sendCoins(10000000, "0x75e8f9dc5b052580c1a3635a45234882d6bdd6a611ba25bc2924c567e8614600"); // hardcoded to mine sui cli address
   }
   
 
@@ -131,7 +135,18 @@ class _Dashboard extends State<DashboardScreen> {
               child: ElevatedButton.icon(
                 onPressed: () => getObjects(),
                 icon: const Icon(Icons.link),
-                label: const Text('get Owned objects'),
+                label: const Text('get Owned Coins'),
+              ),
+            ),
+
+            const SizedBox(height: 24),
+            
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                onPressed: () => sendCoins(),
+                icon: const Icon(Icons.link),
+                label: const Text('Send coins'),
               ),
             ),
 
