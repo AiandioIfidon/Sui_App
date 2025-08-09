@@ -57,19 +57,19 @@ class SuiWalletService { // will make the address and private key the constructo
       debugPrint("Amount to send greater than balance");
       return false; 
     }
-    final privateKey = await suiCredentials.getWalletPrivateKey();
-    final account = SuiAccount.fromPrivateKey(privateKey, SignatureScheme.Ed25519);
-
-    final transaction = Transaction();
     final coins = await testnetClient.getCoins(address, coinType: '0x2::sui::SUI');
     List<dynamic> amounts = [];
     for(var coin in coins.data) {
       amounts.add(BigInt.from(int.tryParse(coin.balance.toString()) ?? 0));
     }
     debugPrint(amounts.toString());
+    final privateKey = await suiCredentials.getWalletPrivateKey();
+    final account = SuiAccount.fromPrivateKey(privateKey, SignatureScheme.Ed25519);
 
-    final coin = transaction.splitCoins(transaction.gas, amounts);
-    transaction.transferObjects([coin], destination);
+    final transaction = Transaction();
+    transaction.setGasBudget(BigInt.from(20000000));
+    final coin = transaction.splitCoins(transaction.gas, [transaction.pureInt(amount)]); // amounts is an array [1000000000, 100000000] of coins amounts
+    transaction.transferObjects([coin], transaction.pureAddress(destination));
     final result = await testnetClient.signAndExecuteTransactionBlock(account, transaction);
     debugPrint(result.digest);
     return true;
@@ -80,8 +80,6 @@ class SuiWalletService { // will make the address and private key the constructo
     final obj = await testnetClient.getCoins(address, coinType: '0x2::sui::SUI');
     final data = obj.data;
 
-    final key = await suiCredentials.getWalletPrivateKey();
-    final account = SuiAccount.fromPrivateKey(key, SignatureScheme.Ed25519);
 
     List<String> validIds = [];
     for (var coin in data) {
@@ -98,16 +96,17 @@ class SuiWalletService { // will make the address and private key the constructo
       return;
     }
     if (validIds.length > 1) {
+      final key = await suiCredentials.getWalletPrivateKey();
+      final account = SuiAccount.fromPrivateKey(key, SignatureScheme.Ed25519);
 
       final transaction = Transaction();
-      final address = await suiCredentials.getWalletAddress();
-      transaction.setSender(address);
+      transaction.setGasBudget(BigInt.from(2000000));
 
       List<Map<String, dynamic>> coinsToMerge = [];
-      for(int i = 1; i < validIds.length - 1; i++) { // creating the sources starting with the second coin object
+      for(int i = 0; i < validIds.length - 1; i++) { // creating the sources starting with the second coin object
         coinsToMerge.add(transaction.objectId(validIds[i]));
       }
-      transaction.mergeCoins( transaction.objectId(validIds[0]), coinsToMerge );
+      transaction.mergeCoins( transaction.gas, [coinsToMerge.last] );
       final result = await testnetClient.signAndExecuteTransactionBlock(
         account,
         transaction,

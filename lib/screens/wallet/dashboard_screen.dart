@@ -38,6 +38,7 @@ class _Dashboard extends State<DashboardScreen> {
 
   Future<void> sendCoins() async {
     await suiWallet.sendCoins(10000000, "0x75e8f9dc5b052580c1a3635a45234882d6bdd6a611ba25bc2924c567e8614600"); // hardcoded to mine sui cli address
+    loadWallet();
   }
   
 
