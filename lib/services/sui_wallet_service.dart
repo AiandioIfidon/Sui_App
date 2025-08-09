@@ -37,7 +37,6 @@ class SuiWalletService { // will make the address and private key the constructo
   Future<int> getAccountBalance() async {
     final String address = await suiCredentials.getWalletAddress();
     final balance = await testnetClient.getBalance(address);
-    await Future.delayed(const Duration(seconds: 2));
     return balance.totalBalance.toInt();
   }
 
@@ -49,9 +48,8 @@ class SuiWalletService { // will make the address and private key the constructo
     }
   }
 
-  Future<bool> sendCoins(int amount, String destination) async {
+  Future<bool> sendCoins(int balance, int amount, String destination) async {
     final String address = await suiCredentials.getWalletAddress();
-    final balance = await getAccountBalance();
 
     if(amount > balance) {
       debugPrint("Amount to send greater than balance");
@@ -67,12 +65,21 @@ class SuiWalletService { // will make the address and private key the constructo
     final account = SuiAccount.fromPrivateKey(privateKey, SignatureScheme.Ed25519);
 
     final transaction = Transaction();
-    transaction.setGasBudget(BigInt.from(20000000));
+    transaction.setGasBudget(BigInt.from(2000000));
     final coin = transaction.splitCoins(transaction.gas, [transaction.pureInt(amount)]); // amounts is an array [1000000000, 100000000] of coins amounts
     transaction.transferObjects([coin], transaction.pureAddress(destination));
     final result = await testnetClient.signAndExecuteTransactionBlock(account, transaction);
-    debugPrint(result.digest);
-    return true;
+
+    debugPrint("Trying to get the transaction now\n\n\n\n\n\n\n\n");
+    final txn = await testnetClient.getTransactionBlock(
+      result.digest,
+      options: SuiTransactionBlockResponseOptions(showEffects: true, showEvents: true)
+    );
+    if(txn.effects?.status.status == ExecutionStatusType.success) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   Future<void> mergeObjects() async {

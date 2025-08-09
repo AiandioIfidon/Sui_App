@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../services/sui_wallet_service.dart';
+import '/services/sui_wallet_service.dart';
+
+import 'send_sui_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -28,18 +30,18 @@ class _Dashboard extends State<DashboardScreen> {
     });
   }
 
-  Future<void> getObjects() async {
-    await suiWallet.getCoins();
-  }
+  // Future<void> getObjects() async {
+  //   await suiWallet.getCoins();
+  // }
 
-  Future<void> merge() async {
-    await suiWallet.mergeObjects();
-  }
+  // Future<void> merge() async {
+  //   await suiWallet.mergeObjects();
+  // }
 
-  Future<void> sendCoins() async {
-    await suiWallet.sendCoins(10000000, "0x75e8f9dc5b052580c1a3635a45234882d6bdd6a611ba25bc2924c567e8614600"); // hardcoded to mine sui cli address
-    loadWallet();
-  }
+  // Future<void> sendCoins() async {
+  //   await suiWallet.sendCoins(10000000, "0x75e8f9dc5b052580c1a3635a45234882d6bdd6a611ba25bc2924c567e8614600"); // hardcoded to mine sui cli address
+  //   loadWallet();
+  // }
   
 
   @override
@@ -94,7 +96,14 @@ class _Dashboard extends State<DashboardScreen> {
                       children: [
                         Expanded(
                           child: ElevatedButton.icon(
-                            onPressed: () => Navigator.pushNamed(context, '/send'),
+                            onPressed: () async { 
+                              final result = await Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => SendSuiScreen(balance: _suiBalance,)),
+                              );
+                              if(result) {
+                                loadWallet();
+                              }},
                             icon: const Icon(Icons.send),
                             label: const Text('Send'),
                           ),
@@ -119,50 +128,50 @@ class _Dashboard extends State<DashboardScreen> {
             ),
             const SizedBox(height: 20),
             
-            // Connect Button
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton.icon(
-                onPressed: () => Navigator.pushNamed(context, '/devices'),
-                icon: const Icon(Icons.link),
-                label: const Text('Connect'),
-              ),
-            ),
+            // // Connect Button
+            // SizedBox(
+            //   width: double.infinity,
+            //   child: ElevatedButton.icon(
+            //     onPressed: () => Navigator.pushNamed(context, '/devices'),
+            //     icon: const Icon(Icons.link),
+            //     label: const Text('Connect'),
+            //   ),
+            // ),
             
-            const SizedBox(height: 24),
+            // const SizedBox(height: 24),
 
-             SizedBox(
-              width: double.infinity,
-              child: ElevatedButton.icon(
-                onPressed: () => getObjects(),
-                icon: const Icon(Icons.link),
-                label: const Text('get Owned Coins'),
-              ),
-            ),
+            //  SizedBox(
+            //   width: double.infinity,
+            //   child: ElevatedButton.icon(
+            //     onPressed: () => getObjects(),
+            //     icon: const Icon(Icons.link),
+            //     label: const Text('get Owned Coins'),
+            //   ),
+            // ),
 
-            const SizedBox(height: 24),
+            // const SizedBox(height: 24),
             
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton.icon(
-                onPressed: () => sendCoins(),
-                icon: const Icon(Icons.link),
-                label: const Text('Send coins'),
-              ),
-            ),
+            // SizedBox(
+            //   width: double.infinity,
+            //   child: ElevatedButton.icon(
+            //     onPressed: () => sendCoins(),
+            //     icon: const Icon(Icons.link),
+            //     label: const Text('Send coins'),
+            //   ),
+            // ),
 
-            const SizedBox(height: 24),
+            // const SizedBox(height: 24),
 
-             SizedBox(
-              width: double.infinity,
-              child: ElevatedButton.icon(
-                onPressed: () => merge(),
-                icon: const Icon(Icons.link),
-                label: const Text('Merge Objects'),
-              ),
-            ),
+            //  SizedBox(
+            //   width: double.infinity,
+            //   child: ElevatedButton.icon(
+            //     onPressed: () => merge(),
+            //     icon: const Icon(Icons.link),
+            //     label: const Text('Merge Objects'),
+            //   ),
+            // ),
 
-            const SizedBox(height: 24),
+            // const SizedBox(height: 24),
             
             Text('Address:', style: TextStyle(color: Colors.blue[400])),
                 SelectableText(_address!),
