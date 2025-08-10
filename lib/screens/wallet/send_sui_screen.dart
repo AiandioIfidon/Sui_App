@@ -3,7 +3,7 @@ import '/services/sui_wallet_service.dart';
 
 class SendSuiScreen extends StatefulWidget{
   const SendSuiScreen({super.key, required this.balance});
-  final int balance;
+  final double balance;
 
   @override
   State<SendSuiScreen> createState() => _SendSuiPage();
@@ -24,7 +24,7 @@ class _SendSuiPage extends State<SendSuiScreen> {
     super.dispose();
   }
 
-  Future<bool> sendCoins( int balance, int amount, String address) async {
+  Future<bool> sendCoins( double balance, double amount, String address) async {
     if(amount == 0) {
       debugPrint("Fill in amount greater than zero");
       return false;
@@ -120,7 +120,8 @@ class _SendSuiPage extends State<SendSuiScreen> {
                   setState(() {
                     _sending = true;
                   });
-                  final result = await sendCoins(widget.balance, int.tryParse(_amountController.text) ?? 0, _addressController.text);
+                  // Remember to invalid decimal values less the billionth value
+                  final result = await sendCoins(widget.balance, double.tryParse(_amountController.text) ?? 0, _addressController.text);
                   if(result){
                     _showPopup(success: true);
                   } else {

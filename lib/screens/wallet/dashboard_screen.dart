@@ -13,7 +13,7 @@ class _Dashboard extends State<DashboardScreen> {
 
   final SuiWalletService suiWallet = SuiWalletService();
 
-  int _suiBalance = 0; 
+  double _suiBalance = 0; 
   String _address = 'loading';
   @override
   void initState() {
@@ -25,7 +25,7 @@ class _Dashboard extends State<DashboardScreen> {
     final int balance = await suiWallet.getAccountBalance();
     final address = await suiWallet.getAddress();
     setState(() {
-      _suiBalance = balance;
+      _suiBalance = balance/1000000000;
       _address = address;
     });
   }
@@ -77,17 +77,9 @@ class _Dashboard extends State<DashboardScreen> {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      '${_suiBalance/1000000000} Sui',
+                      '$_suiBalance Sui',
                       style: TextStyle(
                         fontSize: 32,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      '$_suiBalance MIST',
-                      style: TextStyle(
-                        fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
                     ),

@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:sui/sui.dart';
@@ -48,10 +47,10 @@ class SuiWalletService { // will make the address and private key the constructo
     }
   }
 
-  Future<bool> sendCoins(int balance, int amount, String destination) async {
+  Future<bool> sendCoins(double balance, double amount, String destination) async {
     final String address = await suiCredentials.getWalletAddress();
 
-    if(amount > balance) {
+    if(amount > balance) { 
       debugPrint("Amount to send greater than balance");
       return false; 
     }
@@ -66,7 +65,8 @@ class SuiWalletService { // will make the address and private key the constructo
 
     final transaction = Transaction();
     transaction.setGasBudget(BigInt.from(2000000));
-    final coin = transaction.splitCoins(transaction.gas, [transaction.pureInt(amount)]); // amounts is an array [1000000000, 100000000] of coins amounts
+    final int amountInInt = (amount * 1000000000).floor(); // cibver
+    final coin = transaction.splitCoins(transaction.gas, [transaction.pureInt(amountInInt)]); // amounts is an array [1000000000, 100000000] of coins amounts
     transaction.transferObjects([coin], transaction.pureAddress(destination));
     final result = await testnetClient.signAndExecuteTransactionBlock(account, transaction);
 
