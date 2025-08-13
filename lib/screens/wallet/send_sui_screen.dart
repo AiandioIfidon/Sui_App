@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import '/services/sui_wallet_service.dart';
 
 class SendSuiScreen extends StatefulWidget{
-  const SendSuiScreen({super.key, required this.balance});
+  const SendSuiScreen({super.key, required this.balance, this.fixed=false, this.amount=0, this.address=''});
   final double balance;
 
+  final bool fixed;
+  final double amount;
+  final String address;
   @override
   State<SendSuiScreen> createState() => _SendSuiPage();
 }
@@ -80,8 +83,75 @@ class _SendSuiPage extends State<SendSuiScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar( title:  const Text('Send Sui'),),
-      
-      body: Padding(
+
+      body: widget.fixed?
+
+      Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+
+            const Text(
+              'Fixed transaction',
+              style: TextStyle(
+                fontSize: 20,
+                color: Colors.brown,
+              ),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              'Sending:',
+              style: TextStyle(
+                fontSize: 20,
+                color: Colors.blue,
+              ),
+            ),
+            Text(
+              '-${widget.amount} Sui',
+              style: TextStyle(
+                fontSize: 20,
+                color: Colors.red,
+              ),
+            ),
+            const SizedBox(height: 30),
+            Text(
+              'To address: ${widget.address}',
+              style: TextStyle(
+                fontSize: 20,
+                color: Colors.black
+              ),
+            ),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                onPressed: _sending?
+                () {} : () async {
+                  if(!mounted) return;
+                  setState(() {
+                    _sending = true;
+                  });
+                  // Remember to invalid decimal values less the billionth value
+                  final result = await sendCoins(widget.balance, widget.amount, widget.address);
+                  if(result){
+                    _showPopup(success: true);
+                  } else {
+                    _showPopup(success: false);
+                  }
+                },
+                icon: _sending? Icon(Icons.lock_clock_rounded) : Icon(Icons.send),
+                label: _sending? Text('Processing') : Text('Send'),
+              ),
+            ),
+          ],
+        )
+      )
+
+
+      :
+
+
+      Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

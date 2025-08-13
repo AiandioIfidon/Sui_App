@@ -34,8 +34,12 @@ class _Dashboard extends State<DashboardScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: const Text('Wallet'),
-        actions: [
+        leading: IconButton(
+          onPressed: () {},
+          icon: ),
+        actions: [,
           IconButton(
             icon: const Icon(Icons.shopping_bag_outlined),
             onPressed: () => Navigator.pushNamed(context, '/shop'),
@@ -106,20 +110,27 @@ class _Dashboard extends State<DashboardScreen> {
             ),
             const SizedBox(height: 20),
             
-            // Connect Button
+            // Test button
             SizedBox(
               width: double.infinity,
               child: ElevatedButton.icon(
-                onPressed: () {},
+                onPressed: () async {
+                  final result = await Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SendSuiScreen(balance: _suiBalance, fixed: true, amount: 0.1, address: '0x75e8f9dc5b052580c1a3635a45234882d6bdd6a611ba25bc2924c567e8614600',))
+                  );
+                  if(result){
+                    loadWallet();
+                  }
+                },
                 icon: const Icon(Icons.link),
-                label: const Text('Convert to naira'),
+                label: const Text('Send fixed coins'),
               ),
             ),
             
             const SizedBox(height: 24),
-
             Text('Address:', style: TextStyle(color: Colors.blue[400])),
-                SelectableText(_address!),
+                SelectableText(_address),
                 const SizedBox(height: 16),
           ],
         ),
