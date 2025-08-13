@@ -4,13 +4,13 @@ AndroidOptions _getAndroidOptions() => const AndroidOptions(
   encryptedSharedPreferences: true,
 );
 
-// IOSOptions _getIOSOptions() => const IOSOptions(
-//   accessibility: KeychainAccessibility.first_unlock, // apple uses keychain while android uses AES
-// );
+IOSOptions _getIOSOptions() => const IOSOptions(
+  accessibility: KeychainAccessibility.first_unlock, // apple uses keychain while android uses AES
+);
 
 final FlutterSecureStorage storage = FlutterSecureStorage(
-  aOptions: _getAndroidOptions()
-  // iOptions: _getIOSOptions(),
+  aOptions: _getAndroidOptions(),
+  iOptions: _getIOSOptions(),
 );
 
 

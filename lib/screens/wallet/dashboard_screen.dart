@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_test_app/screens/wallet/sui_account_screen.dart';
 import '/services/sui_wallet_service.dart';
 
 import 'send_sui_screen.dart';
@@ -13,12 +14,23 @@ class _Dashboard extends State<DashboardScreen> {
 
   final SuiWalletService suiWallet = SuiWalletService();
 
-  double _suiBalance = 0; 
+  double _suiBalance = 0;
+  bool _loggedIn = false;
   String _address = 'loading';
+
   @override
-  void initState() {
+  void initState() async {
     super.initState();
     loadWallet();
+  }
+
+  Future<void> initAccount() async {
+    final account = await suiWallet.getAddress();
+    if (account.isNotEmpty) {
+      setState(() {
+        _loggedIn = true;
+      });;
+    }
   }
 
   Future<void> loadWallet() async {
@@ -37,11 +49,33 @@ class _Dashboard extends State<DashboardScreen> {
         centerTitle: true,
         title: const Text('Wallet'),
         leading: IconButton(
-          onPressed: () {},
-          icon: ),
-        actions: [,
+          onPressed: () async {
+            if(!mounted) return;
+           
+            final result = await Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => AccountTab(loggedIn: _loggedIn))
+              );
+            if(result) {
+              loadWallet();
+            } else {
+              setState(() {
+                _suiBalance = 0; 
+                _address = 'loading';
+              });
+            }
+          },
+          icon: const Icon(
+            Icons.account_circle_sharp,
+            size: 40,
+            color: Colors.purple,),
+          ),
+        actions: [
           IconButton(
-            icon: const Icon(Icons.shopping_bag_outlined),
+            icon: const Icon(
+              Icons.shopping_bag_outlined,
+              size: 30,
+              color: Colors.brown,),
             onPressed: () => Navigator.pushNamed(context, '/shop'),
           ),
         ],

@@ -13,8 +13,6 @@ class SuiWalletService { // will make the address and private key the constructo
 
   final faucet = FaucetClient(SuiUrls.faucetDev);
 
-        
-
   Future<String> getAddress() async {
     return await suiCredentials.getWalletAddress();
   }
@@ -121,4 +119,5 @@ class SuiWalletService { // will make the address and private key the constructo
       debugPrint(result.digest.toString());
     }
   }
+
 }

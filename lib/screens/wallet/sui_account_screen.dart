@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:sui/sui.dart'; 
 
-import '../../providers/secure_storage_provider.dart';
+import '../../services/sui_credential_service.dart';
 
-class CreateAccountTab extends StatefulWidget {
-  const CreateAccountTab({super.key});
-
+class AccountTab extends StatefulWidget {
+  const AccountTab({super.key, required this.loggedIn});
+  final bool loggedIn;
   @override
-  State<CreateAccountTab> createState() => _CreateAccountTabState();
+  State<AccountTab> createState() => _AccountTabState();
 }
 
-class _CreateAccountTabState extends State<CreateAccountTab> {
+class _AccountTabState extends State<AccountTab> {
   bool _isCreating = false;
   String? _mnemonic;
   String? _address;
-  String? _privateKey;
 
+  final SuiCredentialService suiCred = SuiCredentialService();
 
   Future<void> _createAccount() async {
     setState(() {
@@ -27,16 +27,17 @@ class _CreateAccountTabState extends State<CreateAccountTab> {
 
     final privKey = account.privateKey();
     final addr = account.getAddress(); 
-
-    await storage.write(key: 'sui_private_key', value: privKey);
-    await storage.write(key: 'sui_address', value: addr);
+    await suiCred.saveWallet(addr, privKey);
 
     setState(() {
       _mnemonic = mnemonic;
-      _privateKey = privKey;
       _address = addr;
       _isCreating = false;
     });
+  }
+
+  Future<void> deleteAccount() async {
+    await suiCred.deleteAccount();
   }
 
   @override
@@ -70,10 +71,6 @@ class _CreateAccountTabState extends State<CreateAccountTab> {
                 Text('Address:', style: TextStyle(color: Colors.blue[400])),
                 SelectableText(_address!),
                 const SizedBox(height: 16),
-              ],
-              if (_privateKey != null) ...[
-                Text('Private Key:', style: TextStyle(color: Colors.blue[400])),
-                SelectableText(_privateKey!),
               ],
             ],
           ),
