@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 // import 'screens/sui_account_screen.dart';
 
@@ -12,6 +11,8 @@ import 'screens/store_and_payment/shop_screen.dart';
 import 'screens/store_and_payment/product_detail_screen.dart';
 import 'screens/buy_screen.dart';
 
+import 'package:app_links/app_links.dart';
+
 void main() {
   runApp(const CryptoWaterApp());
 }
@@ -23,7 +24,24 @@ class CryptoWaterApp extends StatefulWidget {
 }
 
 class _CryptoAppState extends State<CryptoWaterApp> {
-  
+
+  final applinks = AppLinks();
+
+  @override
+  void initState() {
+    super.initState();
+    _initDeeplinks();
+  }
+
+  Future<void> _initDeeplinks() async {
+    final initialUri = await applinks.getInitialLink();
+    if(initialUri != null) {
+      debugPrint('Success $initialUri');
+    } else {
+      debugPrint("Failed $initialUri");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
