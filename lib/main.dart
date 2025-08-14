@@ -15,9 +15,16 @@ void main() {
   runApp(const CryptoWaterApp());
 }
 
-class CryptoWaterApp extends StatelessWidget {
+class CryptoWaterApp extends StatefulWidget {
   const CryptoWaterApp({super.key});
+  @override
+  State<CryptoWaterApp> createState() => _CryptoAppState();
+}
 
+class _CryptoAppState extends State<CryptoWaterApp> {
+
+
+  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
