@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 // import 'screens/sui_account_screen.dart';
 
@@ -22,8 +23,6 @@ class CryptoWaterApp extends StatefulWidget {
 }
 
 class _CryptoAppState extends State<CryptoWaterApp> {
-
-
   
   @override
   Widget build(BuildContext context) {

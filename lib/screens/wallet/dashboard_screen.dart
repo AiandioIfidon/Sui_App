@@ -19,7 +19,7 @@ class _Dashboard extends State<DashboardScreen> {
   String _address = 'loading';
 
   @override
-  void initState() async {
+  void initState() {
     super.initState();
     loadWallet();
   }
