@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
 import 'package:flutter_test_app/screens/wallet/sui_account_screen.dart';
 import '/services/sui_wallet_service.dart';
 
@@ -76,7 +78,7 @@ class _Dashboard extends State<DashboardScreen> {
               Icons.shopping_bag_outlined,
               size: 30,
               color: Colors.brown,),
-            onPressed: () => Navigator.pushNamed(context, '/shop'),
+            onPressed: () => context.go('/shop'),
           ),
         ],
       ),
@@ -171,7 +173,7 @@ class _Dashboard extends State<DashboardScreen> {
       ),
 
       floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.pushNamed(context, '/dispenser'),
+        onPressed: () => context.go('/dispenser'),
         tooltip: 'Delete Wallet Balance',
         backgroundColor: Colors.blue[700], // Set background color
         foregroundColor: Colors.white, // Icon/text color

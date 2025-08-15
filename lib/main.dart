@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_test_app/screens/wallet/sui_account_screen.dart';
+import 'package:go_router/go_router.dart';
 // import 'screens/sui_account_screen.dart';
 
 import 'screens/wallet/dashboard_screen.dart';
@@ -11,40 +13,81 @@ import 'screens/store_and_payment/shop_screen.dart';
 import 'screens/store_and_payment/product_detail_screen.dart';
 import 'screens/buy_screen.dart';
 
-import 'package:app_links/app_links.dart';
-
 void main() {
-  runApp(const CryptoWaterApp());
+  runApp(SuiApp());
 }
 
-class CryptoWaterApp extends StatefulWidget {
-  const CryptoWaterApp({super.key});
-  @override
-  State<CryptoWaterApp> createState() => _CryptoAppState();
-}
+class SuiApp extends StatelessWidget {
+  SuiApp({super.key});
 
-class _CryptoAppState extends State<CryptoWaterApp> {
-
-  final applinks = AppLinks();
-
-  @override
-  void initState() {
-    super.initState();
-    _initDeeplinks();
-  }
-
-  Future<void> _initDeeplinks() async {
-    final initialUri = await applinks.getInitialLink();
-    if(initialUri != null) {
-      debugPrint('Success $initialUri');
-    } else {
-      debugPrint("Failed $initialUri");
-    }
-  }
+  final GoRouter _router = GoRouter(
+    initialLocation: '/',
+    routes: [
+      GoRoute(
+        path: '/',
+        name: 'dashboard',
+        builder: (context, state) => const DashboardScreen(),
+      ),
+      GoRoute(
+        path: '/send',
+        name: 'send',
+        builder: (context, state) => const SendScreen(),
+      ),
+      GoRoute(
+        path: '/devices',
+        name: 'devices',
+        builder: (context, state) => const DeviceSelectionScreen(),
+      ),
+      GoRoute(
+        path: '/payment/:amount',
+        name: 'payment',
+        builder: (context, state) {
+          final amount = int.parse(state.pathParameters['amount']!);
+          return PaymentConfirmationScreen(amount: amount);
+        },
+      ),
+      GoRoute(
+        path: '/shop',
+        name: 'shop',
+        builder: (context, state) => const ShopScreen(),
+      ),
+      GoRoute(
+        path: '/product/:amount',
+        name: 'payment',
+        builder: (context, state) {
+          final amount = int.parse(state.pathParameters['amount']!);
+          return ProductDetailScreen(amount: amount);
+        },
+      ),
+      GoRoute(
+        path: '/buy',
+        name: 'buy',
+        builder: (context, state) => const BuyScreen(),
+      ),
+      GoRoute(
+        path: '/processing',
+        name: 'processing',
+        builder: (context, state) => BleChatPage(),
+      ),
+      GoRoute(
+        path: '/dispenser',
+        name: 'dispenser',
+        builder: (context, state) => DispenseScreen(),
+      ),
+      GoRoute(
+        path: '/account/:loggedIn',
+        name: 'account',
+        builder: (context, state) {
+          final bool loggedIn = bool.parse(state.pathParameters['loggedIn']!);
+          return AccountTab(loggedIn: loggedIn);
+          },
+      ),
+    ],
+  );
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Crypto Water Wallet',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -71,38 +114,7 @@ class _CryptoAppState extends State<CryptoWaterApp> {
           ),
         ),
       ),
-      home: const DashboardScreen(),
-      onGenerateRoute: (settings) {
-        switch (settings.name) {
-          case '/send':
-            return MaterialPageRoute(builder: (_) => const SendScreen());
-          case '/devices':
-            return MaterialPageRoute(
-              builder: (_) => const DeviceSelectionScreen(),
-            );
-          case '/payment':
-            final amount = settings.arguments as int; // gotten from the shop
-            return MaterialPageRoute(
-              builder: (_) => PaymentConfirmationScreen(amount: amount),
-            );
-          case '/shop':
-            return MaterialPageRoute(builder: (_) => const ShopScreen());
-          case '/product':
-            final amount = settings.arguments as int;
-            return MaterialPageRoute(
-              builder: (_) => ProductDetailScreen(amount: amount),
-            );
-          case '/buy':
-            return MaterialPageRoute(builder: (_) => const BuyScreen());
-          case '/processing':
-            return MaterialPageRoute(builder: (_) => BleChatPage());
-          case '/dispenser':
-            return MaterialPageRoute(builder: (_) => DispenseScreen());
-
-          default:
-            return null;
-        }
-      },
+      routerConfig: _router,
     );
   }
 }
