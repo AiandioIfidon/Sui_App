@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class BuyScreen extends StatelessWidget {
   const BuyScreen({super.key});
@@ -85,7 +86,7 @@ class BuyScreen extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton.icon(
-                onPressed: () => Navigator.pushNamed(context, '/devices'),
+                onPressed: () => context.push('/devices'),
                 icon: const Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -101,7 +102,7 @@ class BuyScreen extends StatelessWidget {
             const Spacer(),
             
             ElevatedButton(
-              onPressed: () => Navigator.pushNamed(context, '/payment'),
+              onPressed: () => context.push('/payment'),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green,
                 minimumSize: const Size(double.infinity, 50),

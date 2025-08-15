@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class DeviceSelectionScreen extends StatelessWidget {
   const DeviceSelectionScreen({super.key});
@@ -60,9 +61,10 @@ class DeviceSelectionScreen extends StatelessWidget {
                         ],
                       ),
                       trailing: ElevatedButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/payment', arguments: 37) ;
-                        },
+                        onPressed: () => context.pushNamed(
+                          'payment',
+                          pathParameters: {'amount': '13'} // using 13 for test
+                        ),
                         style: ElevatedButton.styleFrom(
                           minimumSize: const Size(80, 36),
                         ),

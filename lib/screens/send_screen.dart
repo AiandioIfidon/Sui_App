@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class SendScreen extends StatelessWidget {
   const SendScreen({super.key});
@@ -85,7 +86,7 @@ class SendScreen extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton.icon(
-                onPressed: () => Navigator.pushNamed(context, '/devices'),
+                onPressed: () => context.push('/devices'),
                 icon: const Icon(Icons.bluetooth),
                 label: const Text('Connect'),
               ),
@@ -94,7 +95,9 @@ class SendScreen extends StatelessWidget {
             const Spacer(),
             
             ElevatedButton(
-              onPressed: () => Navigator.pushNamed(context, '/payment'),
+              onPressed: () => context.pushNamed(
+                '/payment',
+                pathParameters: {'amount': '5'}),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green,
                 minimumSize: const Size(double.infinity, 50),

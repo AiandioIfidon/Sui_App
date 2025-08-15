@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -76,7 +77,7 @@ class BleService {
             }
           },
           onError: (e) {
-            print("Connection error: $e");
+            debugPrint("Connection error: $e");
           },
         );
   }
@@ -89,7 +90,7 @@ class BleService {
         value: message.codeUnits,
       );
     } catch (e) {
-      print("Send error: $e");
+      debugPrint("Send error: $e");
     }
   }
 

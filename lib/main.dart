@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test_app/screens/wallet/sui_account_screen.dart';
 import 'package:go_router/go_router.dart';
-// import 'screens/sui_account_screen.dart';
 
 import 'screens/wallet/dashboard_screen.dart';
+import 'screens/wallet/send_sui_screen.dart';
 import 'screens/dispenser/dispense_screen.dart';
 import 'screens/dispenser/ble_chat_screen.dart';
-import 'screens/send_screen.dart';
+// import 'screens/send_screen.dart';
 import 'screens/dispenser/device_selection_screen.dart';
 import 'screens/store_and_payment/payment_confirmation_screen.dart';
 import 'screens/store_and_payment/shop_screen.dart';
@@ -29,9 +29,12 @@ class SuiApp extends StatelessWidget {
         builder: (context, state) => const DashboardScreen(),
       ),
       GoRoute(
-        path: '/send',
+        path: '/send/:balance',
         name: 'send',
-        builder: (context, state) => const SendScreen(),
+        builder: (context, state) {
+          final balance = double.tryParse(state.pathParameters['amount'] ?? '0') ?? 0;
+          return SendSuiScreen(balance: balance);
+        },
       ),
       GoRoute(
         path: '/devices',
@@ -46,14 +49,14 @@ class SuiApp extends StatelessWidget {
           return PaymentConfirmationScreen(amount: amount);
         },
       ),
-      GoRoute(
+      GoRoute
         path: '/shop',
         name: 'shop',
         builder: (context, state) => const ShopScreen(),
       ),
       GoRoute(
         path: '/product/:amount',
-        name: 'payment',
+        name: 'product',
         builder: (context, state) {
           final amount = int.parse(state.pathParameters['amount']!);
           return ProductDetailScreen(amount: amount);

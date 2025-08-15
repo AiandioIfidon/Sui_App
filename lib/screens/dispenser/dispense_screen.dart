@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../services/cups_wallet_service.dart';
 
@@ -81,7 +82,7 @@ class _Dispence extends State<DispenseScreen> {
                       children: [
                         Expanded(
                           child: ElevatedButton.icon(
-                            onPressed: () => Navigator.pushNamed(context, '/processing'),
+                            onPressed: () => context.push('/processing'),
                             icon: const Icon(Icons.local_drink),
                             label: const Text('Drink'),
                           ),
@@ -89,7 +90,6 @@ class _Dispence extends State<DispenseScreen> {
                         const SizedBox(width: 12),
                         Expanded(
                           child: ElevatedButton.icon(
-                            // onPressed: () => Navigator.pushNamed(context, '/shop'),
                             onPressed: increment,
                             icon: const Icon(Icons.shopping_cart),
                             label: const Text('Buy more'),

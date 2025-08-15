@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:flutter_test_app/screens/wallet/sui_account_screen.dart';
 import '/services/sui_wallet_service.dart';
 
-import 'send_sui_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -54,11 +52,11 @@ class _Dashboard extends State<DashboardScreen> {
           onPressed: () async {
             if(!mounted) return;
            
-            final result = await Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => AccountTab(loggedIn: _loggedIn))
+            final result = context.pushNamed(
+              'account',
+              pathParameters: {'loggedIn': _loggedIn.toString()}
               );
-            if(result) {
+            if(result as bool) {
               loadWallet();
             } else {
               setState(() {
@@ -78,7 +76,7 @@ class _Dashboard extends State<DashboardScreen> {
               Icons.shopping_bag_outlined,
               size: 30,
               color: Colors.brown,),
-            onPressed: () => context.go('/shop'),
+            onPressed: () => context.push('/shop'),
           ),
         ],
       ),
@@ -115,11 +113,11 @@ class _Dashboard extends State<DashboardScreen> {
                         Expanded(
                           child: ElevatedButton.icon(
                             onPressed: () async { 
-                              final result = await Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => SendSuiScreen(balance: _suiBalance,)),
+                              final result = context.pushNamed(
+                                'send',
+                                pathParameters: {'balance': _suiBalance.toString()}
                               );
-                              if(result) {
+                              if(result as bool) {
                                 loadWallet();
                               }},
                             icon: const Icon(Icons.send),
@@ -146,23 +144,23 @@ class _Dashboard extends State<DashboardScreen> {
             ),
             const SizedBox(height: 20),
             
-            // Test button
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton.icon(
-                onPressed: () async {
-                  final result = await Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => SendSuiScreen(balance: _suiBalance, fixed: true, amount: 0.1, address: '0x75e8f9dc5b052580c1a3635a45234882d6bdd6a611ba25bc2924c567e8614600',))
-                  );
-                  if(result){
-                    loadWallet();
-                  }
-                },
-                icon: const Icon(Icons.link),
-                label: const Text('Send fixed coins'),
-              ),
-            ),
+            // Test button for fixed send( needs updating with go router)
+            // SizedBox(
+            //   width: double.infinity,
+            //   child: ElevatedButton.icon(
+            //     onPressed: () async {
+            //       final result = await Navigator.push(
+            //         context,
+            //         MaterialPageRoute(builder: (context) => SendSuiScreen(balance: _suiBalance, fixed: true, amount: 0.1, address: '0x75e8f9dc5b052580c1a3635a45234882d6bdd6a611ba25bc2924c567e8614600',))
+            //       );
+            //       if(result){
+            //         loadWallet();
+            //       }
+            //     },
+            //     icon: const Icon(Icons.link),
+            //     label: const Text('Send fixed coins'),
+            //   ),
+            // ),
             
             const SizedBox(height: 24),
             Text('Address:', style: TextStyle(color: Colors.blue[400])),
@@ -173,7 +171,7 @@ class _Dashboard extends State<DashboardScreen> {
       ),
 
       floatingActionButton: FloatingActionButton(
-        onPressed: () => context.go('/dispenser'),
+        onPressed: () => context.push('/dispenser'),
         tooltip: 'Delete Wallet Balance',
         backgroundColor: Colors.blue[700], // Set background color
         foregroundColor: Colors.white, // Icon/text color

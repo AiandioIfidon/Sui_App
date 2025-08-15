@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class ShopScreen extends StatelessWidget {
   const ShopScreen({super.key});
@@ -73,7 +74,10 @@ class ShopScreen extends StatelessWidget {
                           SizedBox(
                             width: double.infinity,
                             child: ElevatedButton(
-                              onPressed: () => Navigator.pushNamed(context, '/product', arguments: 5),// amount of sui per water cup
+                              onPressed: () => context.pushNamed(
+                                'product',
+                                pathParameters: {'amount': 5.toString()} // amount of sui per water cup
+                              ),
                               style: ElevatedButton.styleFrom(
                                 minimumSize: const Size(0, 32),
                               ),

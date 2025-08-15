@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   const ProductDetailScreen({super.key, required this.amount});
@@ -66,7 +67,10 @@ class _ProductDetails extends State<ProductDetailScreen> {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () => Navigator.pushNamed(context, '/payment', arguments: widget.amount),
+                onPressed: () => context.pushNamed(
+                  'payment', 
+                  pathParameters: {'amount': widget.amount.toString()}
+                  ),
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size(0, 50),
                 ),

@@ -140,7 +140,6 @@ class _PaymentConfirmPage extends State<PaymentConfirmationScreen> {
                     onPressed: () {
                       _showSuccessDialog(context);
                     },
-                    // onPressed: () => Navigator.pushNamed(context, '/processing'),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green,
                       minimumSize: const Size(0, 50),
