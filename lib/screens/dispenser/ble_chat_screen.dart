@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_test_app/services/ble_service.dart';
 
-class BleChatPage extends StatefulWidget {
+class BleChatPage extends StatefulWidget { // remember to use the device and isScanning for something
   const BleChatPage({super.key});
   @override
   State<BleChatPage> createState() => _BleChatPageState();
