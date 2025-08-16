@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
 import '/services/sui_wallet_service.dart';
 
 class SendSuiScreen extends StatefulWidget{
@@ -184,20 +186,10 @@ class _SendSuiPage extends State<SendSuiScreen> {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton.icon(
-                onPressed: _sending?
-                () {} : () async {
-                  if(!mounted) return;
-                  setState(() {
-                    _sending = true;
-                  });
-                  // Remember to invalid decimal values less the billionth value
-                  final result = await sendCoins(widget.balance, double.tryParse(_amountController.text) ?? 0, _addressController.text);
-                  if(result){
-                    _showPopup(success: true);
-                  } else {
-                    _showPopup(success: false);
-                  }
-                },
+                onPressed: () => context.pushNamed(
+                    'payment',
+                    pathParameters: {'amount': _amountController.text, 'address': _addressController.text},
+                  ),
                 icon: _sending? Icon(Icons.lock_clock_rounded) : Icon(Icons.send),
                 label: _sending? Text('Processing') : Text('Send'),
               ),

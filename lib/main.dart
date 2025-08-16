@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_test_app/screens/wallet/sui_account_screen.dart';
 import 'package:go_router/go_router.dart';
 
 import 'screens/wallet/dashboard_screen.dart';
@@ -32,7 +31,7 @@ class SuiApp extends StatelessWidget {
         path: '/send/:balance',
         name: 'send',
         builder: (context, state) {
-          final balance = double.tryParse(state.pathParameters['amount'] ?? '0') ?? 0;
+          final balance = double.tryParse(state.pathParameters['balance'] ?? '0') ?? 0;
           return SendSuiScreen(balance: balance);
         },
       ),
@@ -42,14 +41,15 @@ class SuiApp extends StatelessWidget {
         builder: (context, state) => const DeviceSelectionScreen(),
       ),
       GoRoute(
-        path: '/payment/:amount',
+        path: '/payment/:amount/:address',
         name: 'payment',
         builder: (context, state) {
-          final amount = int.parse(state.pathParameters['amount']!);
-          return PaymentConfirmationScreen(amount: amount);
+          final amount = double.parse(state.pathParameters['amount']??'0');
+          final address = state.pathParameters['address'] ?? '';
+          return PaymentConfirmationScreen(amount: amount, address: address);
         },
       ),
-      GoRoute
+      GoRoute(
         path: '/shop',
         name: 'shop',
         builder: (context, state) => const ShopScreen(),
@@ -77,14 +77,14 @@ class SuiApp extends StatelessWidget {
         name: 'dispenser',
         builder: (context, state) => DispenseScreen(),
       ),
-      GoRoute(
-        path: '/account/:loggedIn',
-        name: 'account',
-        builder: (context, state) {
-          final bool loggedIn = bool.parse(state.pathParameters['loggedIn']!);
-          return AccountTab(loggedIn: loggedIn);
-          },
-      ),
+      // GoRoute(
+      //   path: '/account/:loggedIn',
+      //   name: 'account',
+      //   builder: (context, state) {
+      //     final bool loggedIn = bool.parse(state.pathParameters['loggedIn']!);
+      //     return AccountTab(loggedIn: loggedIn);
+      //     },
+      // ),
     ],
   );
 

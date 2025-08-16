@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_test_app/screens/wallet/sui_account_screen.dart';
 import 'package:go_router/go_router.dart';
 
 import '/services/sui_wallet_service.dart';
@@ -21,6 +22,7 @@ class _Dashboard extends State<DashboardScreen> {
   @override
   void initState() {
     super.initState();
+    initAccount();
     loadWallet();
   }
 
@@ -51,18 +53,12 @@ class _Dashboard extends State<DashboardScreen> {
         leading: IconButton(
           onPressed: () async {
             if(!mounted) return;
-           
-            final result = context.pushNamed(
-              'account',
-              pathParameters: {'loggedIn': _loggedIn.toString()}
-              );
+            final result = await Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => AccountTab(loggedIn: _loggedIn) )
+            );
             if(result as bool) {
               loadWallet();
-            } else {
-              setState(() {
-                _suiBalance = 0; 
-                _address = 'loading';
-              });
             }
           },
           icon: const Icon(

@@ -5,20 +5,17 @@ import 'package:sui/sui.dart';
 import 'sui_credential_service.dart';
 
 class SuiWalletService { // will make the address and private key the constructors later
-
-  final SuiCredentialService suiCredentials = SuiCredentialService();
-
   final testnetClient = SuiClient(SuiUrls.testnet);
   final devnetClient = SuiClient(SuiUrls.devnet);
 
   final faucet = FaucetClient(SuiUrls.faucetDev);
 
   Future<String> getAddress() async {
-    return await suiCredentials.getWalletAddress();
+    return await SuiCredentialService.getWalletAddress();
   }
   
   Future<void> requestFaucetDev() async {
-    final String address = await suiCredentials.getWalletAddress();
+    final String address = await SuiCredentialService.getWalletAddress();
     if(address.isEmpty) {
       debugPrint('Address is null');
       return;
@@ -32,13 +29,13 @@ class SuiWalletService { // will make the address and private key the constructo
   }
 
   Future<int> getAccountBalance() async {
-    final String address = await suiCredentials.getWalletAddress();
+    final String address = await SuiCredentialService.getWalletAddress();
     final balance = await testnetClient.getBalance(address);
     return balance.totalBalance.toInt();
   }
 
   Future<void> getCoins() async {
-    final String address = await suiCredentials.getWalletAddress();
+    final String address = await SuiCredentialService.getWalletAddress();
     final obj = await testnetClient.getCoins(address, coinType: '0x2::sui::SUI');
     for(var object in obj.data) {
       debugPrint('Object Id: ${object.objectId.toString()}');
@@ -46,7 +43,7 @@ class SuiWalletService { // will make the address and private key the constructo
   }
 
   Future<bool> sendCoins(double balance, double amount, String destination) async {
-    final String address = await suiCredentials.getWalletAddress();
+    final String address = await SuiCredentialService.getWalletAddress();
 
     if(amount > balance) { 
       debugPrint("Amount to send greater than balance");
@@ -58,7 +55,7 @@ class SuiWalletService { // will make the address and private key the constructo
       amounts.add(BigInt.from(int.tryParse(coin.balance.toString()) ?? 0));
     }
     debugPrint(amounts.toString());
-    final privateKey = await suiCredentials.getWalletPrivateKey();
+    final privateKey = await SuiCredentialService.getWalletPrivateKey();
     final account = SuiAccount.fromPrivateKey(privateKey, SignatureScheme.Ed25519);
 
     final transaction = Transaction();
@@ -81,7 +78,7 @@ class SuiWalletService { // will make the address and private key the constructo
   }
 
   Future<void> mergeObjects() async {
-    final String address = await suiCredentials.getWalletAddress();
+    final String address = await SuiCredentialService.getWalletAddress();
     final obj = await testnetClient.getCoins(address, coinType: '0x2::sui::SUI');
     final data = obj.data;
 
@@ -101,7 +98,7 @@ class SuiWalletService { // will make the address and private key the constructo
       return;
     }
     if (validIds.length > 1) {
-      final key = await suiCredentials.getWalletPrivateKey();
+      final key = await SuiCredentialService.getWalletPrivateKey();
       final account = SuiAccount.fromPrivateKey(key, SignatureScheme.Ed25519);
 
       final transaction = Transaction();

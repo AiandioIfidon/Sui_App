@@ -15,7 +15,13 @@ class _AccountTabState extends State<AccountTab> {
   String? _mnemonic;
   String? _address;
 
-  final SuiCredentialService suiCred = SuiCredentialService();
+  final TextEditingController _mnemonicController = TextEditingController();
+
+  @override
+  void dispose() {
+    _mnemonicController.dispose();
+    super.dispose();
+  }
 
   Future<void> _createAccount() async {
     setState(() {
@@ -27,17 +33,34 @@ class _AccountTabState extends State<AccountTab> {
 
     final privKey = account.privateKey();
     final addr = account.getAddress(); 
-    await suiCred.saveWallet(addr, privKey);
+    await SuiCredentialService.saveWallet(addr, privKey);
 
     setState(() {
       _mnemonic = mnemonic;
       _address = addr;
-      _isCreating = false;
     });
   }
 
-  Future<void> deleteAccount() async {
-    await suiCred.deleteAccount();
+  Future<void> _importAccount(String mnemonic) async {
+    setState(() {
+      _isCreating = true;
+    });
+    if(mnemonic.isEmpty){
+      debugPrint('Mnemonic empty');
+      return;
+    }
+    final account = SuiAccount.fromMnemonics(mnemonic, SignatureScheme.Ed25519);
+    final privKey = account.privateKey();
+    final addr = account.getAddress();
+    await SuiCredentialService.saveWallet(addr, privKey);
+
+    setState(() {
+      _address = addr;
+    });
+  }
+
+  Future<void> _deleteAccount() async {
+    await SuiCredentialService.deleteAccount();
   }
 
   @override
@@ -50,12 +73,40 @@ class _AccountTabState extends State<AccountTab> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              if(!_isCreating) // only show when account is not being created
               ElevatedButton.icon(
                 onPressed: _isCreating ? null : _createAccount,
                 icon: const Icon(Icons.add_circle_outline),
                 label: Text(_isCreating ? 'Creating...' : 'Create Sui Account'),
               ),
-              const SizedBox(height: 24),
+              if(!_isCreating) // only show when account is not being created
+              ElevatedButton.icon(
+                onPressed: _isCreating ? null : () => _importAccount(_mnemonicController.text),
+                icon: const Icon(Icons.add_circle_outline),
+                label: Text(_isCreating ? 'Importing Account' : 'Import Account' ),
+              ),
+
+
+              const SizedBox(height: 35),
+              if(!_isCreating)
+              const Text(
+                'Fill in your ed25519 testnet mnemonics \n or use the "Create Sui Account button" to create a new Ed25519 account',
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.black,
+                ),
+              ),
+              const SizedBox(height: 10),
+              if(!_isCreating)
+              TextField(
+                controller: _mnemonicController,
+                decoration: InputDecoration(
+                  labelText: 'eg. bag shoe sky ...',
+                ),
+              ),
+
+
+              
               if (_mnemonic != null) ...[
                 Text(
                   'Recovery Mnemonic (write this down and keep it safe):',
@@ -75,6 +126,18 @@ class _AccountTabState extends State<AccountTab> {
             ],
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+      onPressed: () => _deleteAccount(),
+      tooltip: 'Delete Account from device',
+      backgroundColor: Colors.blue[700], // Set background color
+      foregroundColor: Colors.white, // Icon/text color
+      elevation: 8.0, // Shadow depth
+      shape: RoundedRectangleBorder(
+        // Custom shape (e.g., rounded rectangle)
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Icon(Icons.delete),
       ),
     );
   }

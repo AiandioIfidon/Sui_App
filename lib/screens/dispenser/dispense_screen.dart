@@ -10,7 +10,6 @@ class DispenseScreen extends StatefulWidget{
 }
 
 class _Dispence extends State<DispenseScreen> {
-  final WalletStorage wallet = WalletStorage();
   int _balance = 0;
 
   @override
