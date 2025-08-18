@@ -5,7 +5,6 @@ import 'screens/wallet/dashboard_screen.dart';
 import 'screens/wallet/send_sui_screen.dart';
 import 'screens/dispenser/dispense_screen.dart';
 import 'screens/dispenser/ble_chat_screen.dart';
-// import 'screens/send_screen.dart';
 import 'screens/dispenser/device_selection_screen.dart';
 import 'screens/store_and_payment/payment_confirmation_screen.dart';
 import 'screens/store_and_payment/shop_screen.dart';
