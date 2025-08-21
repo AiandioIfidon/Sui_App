@@ -1,2 +1,2 @@
 # Sui_App
-Mobile app for Sui
+Mobile app for Sui dispenser
