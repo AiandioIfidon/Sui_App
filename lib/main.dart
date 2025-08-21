@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'screens/wallet/dashboard_screen.dart';
 import 'screens/wallet/send_sui_screen.dart';
@@ -11,7 +12,11 @@ import 'screens/store_and_payment/shop_screen.dart';
 import 'screens/store_and_payment/product_detail_screen.dart';
 import 'screens/buy_screen.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await dotenv.load(fileName: ".env");
+
   runApp(SuiApp());
 }
 

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -17,8 +18,8 @@ class BleService {
 
   final _ble = FlutterReactiveBle();
 
-  final Uuid _serviceUuid = Uuid.parse("853f29b2-f5ed-4b69-b4c6-9cd68a9fc2b0");
-  final Uuid _charUuid = Uuid.parse("b72b9432-25f9-4c7f-96cb-fcb8efde84fd");
+  final Uuid _serviceUuid = Uuid.parse(dotenv.env['SERVICE_UUID'] ?? '');
+  final Uuid _charUuid = Uuid.parse(dotenv.env['CHARACTERISTIC_UUID'] ?? '');
 
   DiscoveredDevice? _device;
   QualifiedCharacteristic? _chatChar;
