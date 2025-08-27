@@ -18,11 +18,12 @@
 
     final SuiWalletService suiWallet = SuiWalletService();
 
+    final vendorAddress = "0x192e2910724dfbe63579eaa3a0f2276af0047641270153c881f7976d7d4fb3c7";
 
     @override
     void initState() {
       super.initState();
-
+      initAccount();
     }
 
     Future<void> initAccount() async {

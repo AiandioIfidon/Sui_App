@@ -3,12 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:sui/sui.dart';
 
 import 'sui_credential_service.dart';
+import 'cups_wallet_service.dart';
 
 class SuiWalletService { // will make the address and private key the constructors later
   final testnetClient = SuiClient(SuiUrls.testnet);
   final devnetClient = SuiClient(SuiUrls.devnet);
 
   final faucet = FaucetClient(SuiUrls.faucetDev);
+
+  final vendorAddress = "0x192e2910724dfbe63579eaa3a0f2276af0047641270153c881f7976d7d4fb3c7";// use to check if its to the vendor before it updates cups balance
 
   Future<String> getAddress() async {
     return await SuiCredentialService.getWalletAddress();
@@ -64,13 +67,25 @@ class SuiWalletService { // will make the address and private key the constructo
     final coin = transaction.splitCoins(transaction.gas, [transaction.pureInt(amountInInt)]); // amounts is an array [1000000000, 100000000] of coins amounts
     transaction.transferObjects([coin], transaction.pureAddress(destination));
     final result = await testnetClient.signAndExecuteTransactionBlock(account, transaction);
-
+    await Future.delayed(const Duration(seconds: 2));
     debugPrint("Trying to get the transaction now\n\n\n\n\n\n\n\n");
     final txn = await testnetClient.getTransactionBlock(
       result.digest,
       options: SuiTransactionBlockResponseOptions(showEffects: true, showEvents: true)
     );
     if(txn.effects?.status.status == ExecutionStatusType.success) {
+
+      if(destination == vendorAddress) {
+        bool ans = await WalletStorage.storeFromTransaction(result.digest);
+        
+        for(int attempt = 1; attempt <= 3 && !ans; attempt++) {
+          debugPrint('Failed to store digest.\nTrying again ...');
+          await Future.delayed(Duration(milliseconds: 500 * attempt)); // just give it more time with each retry
+          ans = await WalletStorage.storeFromTransaction(result.digest);
+        }
+        debugPrint('Transaction successful\nDigest storage success? $ans');
+      }
+
       return true;
     } else {
       return false;

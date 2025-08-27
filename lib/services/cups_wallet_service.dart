@@ -21,7 +21,7 @@ class WalletStorage {
   static Future<bool> storeFromTransaction(String digest) async {
     int balance = await getBalance();
     try {
-      await storage.write(key: 'Cup_Digest_${balance - 1}', value: digest);
+      await storage.write(key: 'Cup_Digest_$balance', value: digest); // using balance as index as it is incremented later
     } catch (e) {
       debugPrint('Failed to store using digest\n $e');
       return false;

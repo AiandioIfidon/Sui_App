@@ -18,7 +18,7 @@ class _Dispence extends State<DispenseScreen> {
   void initState() {
     super.initState();
     loadBalance();
-    ///
+    loadDigests();
   }
 
   Future<void> loadBalance() async {
