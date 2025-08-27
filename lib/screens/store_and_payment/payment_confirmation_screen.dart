@@ -22,8 +22,8 @@
 
     @override
     void initState() {
-      super.initState();
       initAccount();
+      super.initState();
     }
 
     Future<void> initAccount() async {
