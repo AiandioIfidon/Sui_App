@@ -12,6 +12,8 @@ class DispenseScreen extends StatefulWidget{
 class _Dispence extends State<DispenseScreen> {
   int _balance = 0;
 
+  List<String> _cups = [];
+
   @override
   void initState() {
     super.initState();
@@ -26,11 +28,10 @@ class _Dispence extends State<DispenseScreen> {
     });
   }
 
-  Future<void> increment() async {
-    await WalletStorage.incrementBalance();
-    int balance = await WalletStorage.getBalance();
+  Future<void> loadDigests() async {
+    final cups = await WalletStorage.loadCups();
     setState(() {
-      _balance = balance;
+      _cups = cups;
     });
   }
 
@@ -89,7 +90,7 @@ class _Dispence extends State<DispenseScreen> {
                         const SizedBox(width: 12),
                         Expanded(
                           child: ElevatedButton.icon(
-                            onPressed: increment,
+                            onPressed: () {},
                             icon: const Icon(Icons.shopping_cart),
                             label: const Text('Buy more'),
                             style: ElevatedButton.styleFrom(
@@ -106,7 +107,7 @@ class _Dispence extends State<DispenseScreen> {
             ),
             // Connected Devices
             const Text(
-              'Previously Connected',
+              'Bought cups',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
@@ -116,7 +117,7 @@ class _Dispence extends State<DispenseScreen> {
             
             Expanded(
               child: ListView.builder(
-                itemCount: 1,
+                itemCount: _cups.length,
                 itemBuilder: (context, index) {
                   return Card(
                     margin: const EdgeInsets.only(bottom: 8),
@@ -124,13 +125,13 @@ class _Dispence extends State<DispenseScreen> {
                       leading: CircleAvatar(
                         backgroundColor: Colors.blue[50],
                         child: Icon(
-                          Icons.device_hub,
+                          Icons.local_drink,
                           color: Colors.blue[700],
                         ),
                       ),
-                      title: Text('Dispenser ${index + 1}'),
-                      subtitle: const Text('Last connected 2 hours ago'),
-                      trailing: const Icon(Icons.chevron_right),
+                      title: Text('Cup ${index + 1}'),
+                      subtitle: Text('Digest: ${_cups[index].substring(0, 7)}...'),
+                      trailing: Icon(Icons.chevron_right),
                       onTap: () {},
                     ),
                   );

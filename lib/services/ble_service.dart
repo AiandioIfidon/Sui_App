@@ -21,7 +21,7 @@ class BleService {
   final Uuid _serviceUuid = Uuid.parse(dotenv.env['SERVICE_UUID'] ?? '');
   final Uuid _charUuid = Uuid.parse(dotenv.env['CHARACTERISTIC_UUID'] ?? '');
 
-  DiscoveredDevice? _device;
+  // DiscoveredDevice? _device;
   QualifiedCharacteristic? _chatChar;
 
   final _scanController = StreamController<bool>.broadcast();

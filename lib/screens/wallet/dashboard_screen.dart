@@ -31,7 +31,7 @@ class _Dashboard extends State<DashboardScreen> {
     if (account.isNotEmpty) {
       setState(() {
         _loggedIn = true;
-      });;
+      });
     }
   }
 

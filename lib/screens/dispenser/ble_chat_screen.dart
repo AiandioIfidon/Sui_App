@@ -17,11 +17,11 @@ class _BleChatPageState extends State<BleChatPage> {
   final _appMessageController = StreamController<String>.broadcast();
   Stream<String> get _appMessageStream => _appMessageController.stream;
 
-  bool _isScanning = false;
+  // bool _isScanning = false;
   bool _isConnected = false;
 
   //only adding timer for test
-  Timer? _timer;
+  // Timer? _timer;
 
   @override // overriding inherited method so I can properly initialize Streams and controllers
   void initState() {
@@ -40,7 +40,7 @@ class _BleChatPageState extends State<BleChatPage> {
     // listener for the scanning and connection status. Scanning status is not very necesssary but could be used later
     bleService.isScanning.listen((status) {
       setState(() {
-        _isScanning = status;
+        // _isScanning = status;
       });
     });
     bleService.isConnected.listen((status) {
@@ -50,9 +50,11 @@ class _BleChatPageState extends State<BleChatPage> {
     });
 
     //only adding this timer for tests
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      sendToBle("Test message");
-    });
+    // _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+    //   sendToBle("Test message");
+    // });
+
+    sendToBle("App message");
   }
 
   // void _sendMessage() async {

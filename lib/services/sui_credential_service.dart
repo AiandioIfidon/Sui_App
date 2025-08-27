@@ -15,7 +15,6 @@ class SuiCredentialService {
   static Future<void> saveWallet(String address, String privateKey) async {
     await storage.write(key: 'sui_address', value: address);
     await storage.write(key: 'sui_private_key', value: privateKey);
-    Future.delayed(Duration(seconds: 3));
   }
 
   static Future<void> deleteAccount() async {
